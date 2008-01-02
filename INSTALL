@@ -1,0 +1,3 @@
+To install, run `sudo make install` (or `su -c "make install"` if you do not use
+sudo). To uninstall, run `sudo make uninstall` (or `su -c "make uninstall"` if
+you do not use sudo).
