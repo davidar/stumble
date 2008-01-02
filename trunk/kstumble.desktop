@@ -1,0 +1,31 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+X-KDE-Submenu=StumbleUpon
+ServiceTypes=text/*,image/*
+Actions=stumble;rate_up;rate_down;rate_undo;login;
+
+[Desktop Action stumble]
+Name=Stumble!
+Exec=kstumble stumble %u
+Icon=favorites
+
+[Desktop Action rate_up]
+Name=Rate this site positively
+Exec=kstumble rate up %u
+Icon=ok
+
+[Desktop Action rate_down]
+Name=Rate this site negatively
+Exec=kstumble rate down %u
+Icon=cancel
+
+[Desktop Action rate_undo]
+Name=Remove rating on this site
+Exec=kstumble rate undo %u
+Icon=undo
+
+[Desktop Action login]
+Name=Login to StumbleUpon
+Exec=kstumble login %u
+Icon=configure

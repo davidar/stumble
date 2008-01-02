@@ -1,0 +1,121 @@
+#!/bin/bash
+# (c) 2007-2008 David Roberts
+
+APP_NAME=KStumble
+
+konq_newtab() {
+  dcop konqueror-$PPID konqueror-mainwindow#1 newTab "$1"
+}
+
+konq_thistab() {
+  dcop konqueror-$PPID konqueror-mainwindow#1 openURL "$1"
+}
+
+su_login() {
+  stumble login "`kdialog --title "Login | $APP_NAME" --inputbox "Username:" ""`" "`kdialog --title "Login | $APP_NAME" --password "Password:"`"
+}
+
+get_topic_secs() {
+  echo -n "0 None "
+  stumble arg_list topic_sections
+}
+
+get_topics() {
+  stumble arg_list topics "$1"
+}
+
+get_langs() {
+  echo -n "EN English "
+  stumble arg_list lang
+}
+
+submit_review() {
+  TITLE="$1"
+  
+  kdialog --title "New site | $APP_NAME" --msgbox "This site has never been submitted before - you will need to enter some details in the following dialogs"
+  TITLE="`kdialog --title "New site | $APP_NAME" --inputbox "Title:" "$TITLE"`"
+  COMMENT="`kdialog --title "New site | $APP_NAME" --inputbox "Description:" ""`"
+  TOPIC_SEC="`kdialog --title "New site | $APP_NAME" --menu "Topic:" $(get_topic_secs)`"
+  if [ "$TOPIC_SEC" = 0 ]
+  then
+    TOPIC=0
+  else
+    TOPIC="`kdialog --title "New site | $APP_NAME" --menu "Topic:" $(get_topics "$TOPIC_SEC")`"
+  fi
+  if kdialog --title "New site | $APP_NAME" --yesno "Does this site contain adult content?"
+  then
+    ADULT=1
+  else
+    ADULT=0
+  fi
+  LANG="`kdialog --title "New site | $APP_NAME" --menu "Language:" $(get_langs)`"
+  stumble review "$URI" "$TITLE" "$COMMENT" "$TOPIC" "$ADULT" "$LANG"
+}
+
+check_newurl() {
+  if [ "$1" = NEWURL ]
+  then
+    shift
+    submit_review "$*"
+  fi
+}
+
+do_stumble() {
+  if [ "$1" = URI ]
+  then
+    shift
+    konq_thistab "$*"
+  fi
+}
+
+check_errors() {
+  if [ "$1" = "ERROR" ]
+  then
+    ERROR_STR=
+    shift
+    
+    case "$1" in
+    HTTP_REQ) ERROR_STR="An error occurred while trying to make HTTP request to $2"
+              [ -n "$3" ] ERROR_STR="$ERROR_STR with post data $3"
+              ;;
+    NO_INTERESTS) ERROR_STR="Please select some interests - a new tab to do this should load after you close this dialog";;
+    NO_SITES) ERROR_STR="Unable to retrieve any recommendations";;
+    SERVER_DOWN) ERROR_STR="The StumbleUpon server is currently down";;
+    INVALID_USER) ERROR_STR="The specified username does not exist";;
+    INVALID_PASS) ERROR_STR="The specified password is incorrect";;
+    LOGIN) ERROR_STR="Unable to login to StumbleUpon";;
+    UNSEEN) ERROR_STR="You can't rate an unsubmitted site negatively";;
+    NEWURL_TOKEN) ERROR_STR="Either, the requested URI is invalid, you need to login again, or some other error occurred trying to retrieve a submission token";;
+    REVIEW_SUBMIT) ERROR_STR="An error ocurred trying to submit the review";;
+    PLEASE_LOGIN) ERROR_STR="You need to login first";;
+    INVALID_URI) ERROR_STR="The URI of the requested page is invalid - it cannot be submitted";;
+    SU) shift
+        ERROR_STR="The StumbleUpon server returned the following error: $*"
+        ;;
+    *) ERROR_STR="An unknown error occurred: $*";;
+    esac
+    
+    [ -n "$ERROR_STR" ] && kdialog --title "Error | $APP_NAME" --error "$ERROR_STR"
+    [ "$1" = NO_INTERESTS ] && konq_newtab "http://www.stumbleupon.com/choose_topics.php"
+    [ "$1" = PLEASE_LOGIN ] && su_login
+    
+    exit
+  fi
+}
+
+[ "$1" = "login" ] && OUTPUT="`su_login`"
+if [ "$1" = "rate" ]
+then
+  URI="$3"
+  OUTPUT="`stumble $*`"
+  check_errors $OUTPUT
+  OUTPUT="`check_newurl $OUTPUT`"
+fi
+if [ "$1" = "stumble" ]
+then
+  OUTPUT="`stumble recommend`"
+  check_errors $OUTPUT
+  OUTPUT="`do_stumble $OUTPUT`"
+fi
+
+check_errors $OUTPUT

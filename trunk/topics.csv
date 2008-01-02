@@ -1,0 +1,511 @@
+1,StumbleUpon News
+2,Accounting,Commerce
+3,Acting,Arts/History
+4,Activism,Society
+5,Continuing Education,Society
+6,Pornography,Adult,P
+7,Aviation/Aerospace,Sci/Tech
+8,African Americans,Society
+9,Aging,Health
+10,Agriculture,Outdoors
+11,AIDS,Health
+12,Alcoholic Drinks,Home/Living
+13,Anime,Arts/History
+14,Subculture,Society
+15,Alternative Rock,Music/Movies
+16,Alternative News,Media
+17,Amateur Radio,Sci/Tech
+18,Ambient Music,Music/Movies
+19,Anarchism,Society
+20,Animals,Outdoors
+21,Animation,Media
+22,Anthropology,Sci/Tech
+23,Antiaging,Sci/Tech
+24,Antiques,Home/Living
+25,Archaeology,Sci/Tech
+26,Architecture,Arts/History
+27,Art History,Arts/History
+28,Arthritis,Health
+29,A.I.,Sci/Tech
+30,Crafts,Hobbies
+31,Sports(General),Sports
+32,Asthma,Health
+33,Astrology/Psychics,Society
+34,Astronomy,Sci/Tech
+35,Atheist/Agnostic,Religion
+36,Audio Equipment,Music/Movies
+37,Personal Sites,Society
+38,Badminton,Sports
+39,Ballet,Arts/History
+40,Bargains/Coupons,Commerce
+41,Baseball,Sports
+42,Basketball,Sports
+43,Beauty,Health
+44,Stumblers,Society
+45,Beverages,Home/Living
+46,Biology,Sci/Tech
+47,Biomechanics,Sci/Tech
+48,Biotech,Sci/Tech
+49,Bird Watching,Outdoors
+50,Bisexual Culture,Adult,A
+51,Health/Fitness,Health
+52,Blues music,Music/Movies
+53,Board Games,Hobbies
+54,Boating,Outdoors
+55,Bodybuilding,Health
+56,Botany,Sci/Tech
+57,Boxing,Sports
+58,UK,Regional
+59,Britpop,Music/Movies
+60,Buddhism,Religion
+61,Business,Commerce
+62,Cartoons,Media
+63,C.A.D.,Computers
+64,Camping,Outdoors
+65,Cancer,Health
+66,Canoeing/Kayaking,Outdoors
+67,Car Parts,Hobbies
+68,Cars,Hobbies
+69,Vintage Cars,Hobbies
+70,Catholic,Religion
+71,Cats,Home/Living
+72,Celebrities,Society
+73,Celtic Music,Music/Movies
+74,Chaos/Complexity,Sci/Tech
+75,Cheerleading,Sports
+76,Chemical Eng.,Sci/Tech
+77,Chemistry,Sci/Tech
+78,Chess,Hobbies
+79,Children's Books,Media
+80,Christianity,Religion
+81,Cigars,Hobbies
+82,Civil Engineering,Sci/Tech
+83,Classical Music,Music/Movies
+84,Classical Studies,Arts/History
+85,Climbing,Outdoors
+86,Clothing,Commerce
+87,Cognitive Science,Sci/Tech
+88,Collecting,Hobbies
+89,Comic Books,Media
+90,Communism,Society
+91,Computer Science,Sci/Tech
+92,Software,Computers
+93,Computers,Computers
+94,Computer Hardware,Computers
+95,Multimedia,Computers
+96,Programming,Computers
+97,Web Development,Computers
+98,Conspiracies,Society
+99,Construction,Commerce
+100,Computer Graphics,Computers
+101,Consumer Info,Commerce
+102,Food/Cooking,Home/Living
+103,Christian Music,Music/Movies
+104,Classic Rock,Music/Movies
+105,Counterculture,Society
+106,Country music,Music/Movies
+107,Cricket,Sports
+108,Crime,Society
+109,Shopping,Society
+110,Culture/Ethnicity,Society
+111,Cyberculture,Computers
+112,Bicycling,Sports
+113,Dancing,Arts/History
+114,Dance Music,Music/Movies
+115,Dating Tips,Society
+116,Daytrading,Commerce
+117,Online Games,Computers
+118,Dentistry,Health
+119,Desktop Publishing,Arts/History
+120,Diabetes,Health
+121,Quizzes,Hobbies
+122,Disco,Music/Movies
+123,Divorce,Home/Living
+124,DJ's/Mixing,Music/Movies
+125,Doctors/Surgeons,Health
+126,IT,Computers
+127,Dogs,Home/Living
+128,Dolls/Puppets,Hobbies
+129,Drawing,Arts/History
+130,Tea,Home/Living
+131,Drugs,Society
+132,Drum'n'Bass,Music/Movies
+133,Firefox,Computers
+134,Liberal Politics,Society
+135,Eastern Studies,Arts/History
+136,Ecology,Sci/Tech
+137,Economics,Sci/Tech
+138,Electrical Eng.,Sci/Tech
+139,Electronica/IDM,Music/Movies
+140,Electronic Devices,Commerce
+141,Embedded Systems,Computers
+142,Encryption,Computers
+143,Entertaining,Home/Living
+144,Entrepreneurship,Commerce
+145,Electronic Parts,Sci/Tech
+146,Environment,Sci/Tech
+147,Equestrian/Horses,Sports
+148,Conservative Politics,Society
+149,Webhosting,Computers
+150,Ethics,Arts/History
+151,Evolution,Sci/Tech
+152,Exotic Pets,Home/Living
+153,Cell Phones,Commerce
+154,Extreme Sports,Sports
+155,Family,Home/Living
+156,Fantasy Books,Media
+157,Fashion,Arts/History
+158,Feminism,Society
+159,Fetish Sexuality,Adult,P
+160,Figure Skating,Sports
+161,Filmmaking,Music/Movies
+162,Film Noir,Music/Movies
+163,Classic Films,Music/Movies
+164,Cult Films,Music/Movies
+165,Financial planning,Commerce
+166,Fine Arts,Arts/History
+167,Fish,Home/Living
+168,Fishing,Outdoors
+169,Folk music,Music/Movies
+170,American Football,Sports
+171,Foreign Films,Music/Movies
+172,Forensics,Health
+173,Lesbian Culture,Adult,A
+174,Funk,Music/Movies
+175,Futurism,Sci/Tech
+176,Gambling,Hobbies
+177,Roleplaying Games,Hobbies
+178,Gardening,Home/Living
+179,Gay Culture,Adult,A
+180,Genealogy,Home/Living
+181,Genetics,Sci/Tech
+182,Geography,Sci/Tech
+183,Golf,Sports
+184,Gospel music,Music/Movies
+185,Goth Culture,Society
+186,Government,Society
+187,Graphic Design,Arts/History
+188,Guitar,Music/Movies
+189,Guns,Hobbies
+190,Hacking,Computers
+191,Disabilities,Health
+192,Alternative Health,Health
+193,Hentai Anime,Adult,P
+194,Heart Conditions,Health
+195,Heavy metal,Music/Movies
+196,Hedonism,Society
+197,Hiking,Outdoors
+198,HipHop/Rap,Music/Movies
+199,History,Arts/History
+200,Hockey,Sports
+201,Home Improvement,Home/Living
+202,Homemaking,Home/Living
+203,House music,Music/Movies
+204,Oceania,Regional
+205,Humanitarianism,Society
+206,Humanities,Arts/History
+207,Humor,Hobbies
+208,Hunting,Sports
+209,Space Exploration,Sci/Tech
+210,India,Regional
+211,Independent Film,Music/Movies
+212,Indie Rock/Pop,Music/Movies
+213,Insurance,Commerce
+214,Interior Design,Arts/History
+215,Int'l Development,Society
+216,Investing,Commerce
+217,Islam,Religion
+218,Jazz,Music/Movies
+219,Jewelry,Commerce
+220,Career planning,Society
+221,Forums,Computers
+222,Judaism,Religion
+223,K-12 Education,Society
+224,Karaoke,Music/Movies
+225,Teen Life,Home/Living
+226,Kinesiology,Sci/Tech
+227,Knitting/Crochet,Hobbies
+228,Landscaping,Home/Living
+229,Linguistics,Sci/Tech
+230,Latin Music,Music/Movies
+231,Law,Society
+232,Liberties/Rights,Society
+233,Library Resources,Media
+234,Linux/Unix,Computers
+235,Literature,Media
+236,American Lit.,Media
+237,British Literature,Media
+238,Logic,Arts/History
+239,MacOS,Computers
+240,Magic/Illusions,Hobbies
+241,Management/HR,Commerce
+242,Manufacturing,Commerce
+243,Marketing,Commerce
+244,Married Life,Home/Living
+245,Martial Arts,Sports
+246,Matchmaking,Society
+247,Mathematics,Sci/Tech
+248,Mechanical Eng.,Sci/Tech
+249,Medical Science,Health
+250,Mental Health,Health
+251,Military,Society
+252,Motorcycles,Hobbies
+253,Motor Sports,Sports
+254,Microbiology,Sci/Tech
+255,Movies,Music/Movies
+256,Action Movies,Music/Movies
+257,Comedy Movies,Music/Movies
+258,Drama Movies,Music/Movies
+259,Horror Movies,Music/Movies
+260,Mobile Computing,Computers
+261,Music Composition,Arts/History
+262,Music Instruments,Music/Movies
+263,Music Theory,Music/Movies
+264,Musician Resources,Music/Movies
+265,Mutual Funds,Commerce
+266,Mystery Novels,Media
+267,Mythology,Arts/History
+268,Nanotech,Sci/Tech
+269,Native Americans,Society
+270,Nature,Outdoors
+271,Internet,Computers
+272,Network Security,Computers
+273,Brain Disorders,Health
+274,New Age,Society
+275,Eating Disorders,Health
+276,Search,Computers
+277,Nonprofit/Charity,Society
+278,Nuclear Science,Sci/Tech
+279,Nude Art,Adult,A
+280,Nutrition,Health
+281,Oldies Music,Music/Movies
+282,Open Source,Computers
+283,Opera,Music/Movies
+284,Operating Systems,Computers
+285,Orthodox,Religion
+286,Outdoors,Outdoors
+287,Paganism,Religion
+288,Painting,Arts/History
+289,Paleontology,Sci/Tech
+290,Paranormal,Society
+291,Babies,Home/Living
+292,Kids,Home/Living
+293,Teen Parenting,Home/Living
+294,Alternative Energy,Sci/Tech
+295,Percussion,Music/Movies
+296,Performing Arts,Arts/History
+297,Petroleum,Commerce
+298,Pets,Home/Living
+299,Birds,Home/Living
+300,Pharmacology,Sci/Tech
+301,Philosophy,Arts/History
+302,Photography,Arts/History
+303,Physics,Sci/Tech
+304,Physiology,Sci/Tech
+305,Poetry,Media
+306,Political Science,Sci/Tech
+307,Politics,Society
+308,Pop music,Music/Movies
+309,Postmodernism,Arts/History
+310,Anatomy,Health
+311,Photo Gear,Hobbies
+312,Pregnancy/Birth,Home/Living
+313,Protestant,Religion
+314,Psychiatry,Health
+315,Psychology,Sci/Tech
+316,Writing,Media
+317,Lefthanded,Society
+318,Punk Rock,Music/Movies
+319,Windows Dev,Computers
+320,Racquetball,Sports
+321,Radio Broadcasts,Media
+322,Rave Culture,Society
+323,Real Estate,Commerce
+324,Recording Gear,Music/Movies
+325,Weddings,Home/Living
+326,Puzzles,Hobbies
+327,Reggae,Music/Movies
+328,Relationships,Home/Living
+329,Religion,Religion
+330,Sexual Health,Health
+331,Internet Tools,Computers
+332,Restaurants,Home/Living
+333,P2P,Computers
+334,Soul/R&B,Music/Movies
+335,Robotics,Sci/Tech
+336,Rock music,Music/Movies
+337,Rodeo,Sports
+338,Romance Novels,Media
+339,Running,Outdoors
+340,Sailing,Sports
+341,Satire,Hobbies
+342,Science Fiction,Media
+343,Science/Tech,Sci/Tech
+344,Scientology,Religion
+345,Scouting,Home/Living
+346,Scuba Diving,Outdoors
+347,Sculpting,Arts/History
+348,Self Improvement,Health
+349,Senior Citizens,Society
+350,Sewing/Quilting,Hobbies
+351,Sexuality,Adult,A
+352,Shareware,Computers
+353,Russia,Regional
+354,Computer Security,Computers
+355,Skateboarding,Sports
+356,Skiing,Sports
+357,Snowboarding,Sports
+358,Soccer,Sports
+359,Industrial Design,Arts/History
+360,Socialism,Society
+361,Beer,Home/Living
+362,Sociology,Sci/Tech
+363,Songwriting,Arts/History
+364,Soundtracks,Music/Movies
+365,Spas,Health
+366,Spirituality,Religion
+367,Java,Computers
+368,Squash,Sports
+369,Statistics,Sci/Tech
+370,Substance Abuse,Health
+371,Sufism,Religion
+372,Sunni,Religion
+373,Supercomputing,Computers
+374,Surfing,Sports
+375,Swimming,Sports
+376,Perl,Computers
+377,Tattoos/Piercing,Society
+378,Techno,Music/Movies
+379,Telecom,Commerce
+380,Television,Media
+381,Soap Operas,Media
+382,Tennis,Sports
+383,Terrorism,Society
+384,Live Theatre,Arts/History
+385,PHP,Computers
+386,Ireland,Regional
+387,Toys,Commerce
+388,Track/Field,Sports
+389,Trains/Railroads,Sci/Tech
+390,Trance,Music/Movies
+391,Men's Issues,Society
+392,Transportation,Sci/Tech
+393,Travel,Society
+394,TripHop/Downtempo,Music/Movies
+395,UFO's,Society
+396,University/College,Society
+397,Vegetarian,Home/Living
+398,Video Equipment,Media
+399,Video Games,Computers
+400,Mexico,Regional
+401,Virtual Reality,Sci/Tech
+402,Vocal Music,Music/Movies
+403,Volleyball,Sports
+404,Water Sports,Sports
+405,Meteorology,Sci/Tech
+406,Weight Loss,Health
+407,Wicca,Religion
+408,Windows,Computers
+409,Windsurfing,Sports
+410,Wine,Home/Living
+411,Women's Issues,Society
+412,Ethnic Music,Music/Movies
+413,Wrestling,Sports
+414,Zoology,Sci/Tech
+415,Fitness,Health
+416,Music,Music/Movies
+417,Lounge Music,Music/Movies
+418,Mormon,Religion
+419,Geoscience,Sci/Tech
+420,Shakespeare,Media
+421,Industrial Music,Music/Movies
+422,Ipod,Music/Movies
+423,Musicals,Music/Movies
+424,Physical Therapy,Health
+425,Marine Biology,Sci/Tech
+426,Bizarre/Oddities,Society
+427,Weblogs,Computers
+428,Rugby,Sports
+429,Survivalist,Society
+430,Restoration,Home/Living
+431,Homebrewing,Home/Living
+432,Biographies,Society
+433,Poker,Hobbies
+434,Hotels,Society
+435,Forestry,Outdoors
+436,Memorabilia,Hobbies
+437,Africa,Regional
+438,Asia,Regional
+439,Ergonomics,Health
+440,Canada,Regional
+441,Arts,Arts/History
+442,Banking,Commerce
+443,Semiconductors,Sci/Tech
+444,Peripheral Devices,Computers
+445,Mining/Metallurgy,Sci/Tech
+446,Machinery,Sci/Tech
+447,Australia,Regional
+448,Advertising,Media
+449,Capitalism,Commerce
+450,Taxation,Commerce
+451,Options/Futures,Commerce
+452,Skydiving,Outdoors
+453,Parenting,Home/Living
+454,For Kids,Home/Living
+455,Books,Media
+456,Central America,Regional
+457,Caribbean,Regional
+458,Europe,Regional
+459,Middle East,Regional
+460,South America,Regional
+461,Energy Industry,Commerce
+462,Nightlife,Society
+463,Netherlands,Regional
+464,Nursing,Health
+465,Bowling,Sports
+466,Learning Disorders,Health
+467,Card Games,Hobbies
+468,American History,Arts/History
+469,Cold War,Arts/History
+470,Ancient History,Arts/History
+471,Medieval History,Arts/History
+472,Billiards,Hobbies
+473,Flyfishing,Outdoors
+474,Gymnastics,Sports
+475,Israel,Regional
+476,Iraq Conflict,Society
+477,USA,Regional
+478,New York,Regional
+479,Glaucoma,Health
+480,Yoga,Health
+481,Journalism,Media
+482,Hinduism,Religion
+483,Databases,Computers
+484,Neuroscience,Sci/Tech
+485,Research,Sci/Tech
+486,Instant Messaging,Computers
+487,Coffee,Home/Living
+488,Homeschooling,Home/Living
+489,Ecommerce,Commerce
+490,News(General),Society
+491,Germany,Regional
+492,Brazil,Regional
+493,France,Regional
+494,Korea,Regional
+495,Japan,Regional
+496,Italy,Regional
+497,China,Regional
+498,Spain,Regional
+499,StumbleUpon,Computers
+500,Adult Humor,Adult,A
+502,Swingers,Adult,A
+503,Sex Industry,Adult,A
+509,Erotic Literature,Adult,A
+510,Gay Sex,Adult,P
+513,Lesbian Sex,Adult,P
+518,Sex Toys,Adult,A
+520,Adult Stumblers,Adult,A
+521,BDSM,Adult,P
+522,Bisexual Sex,Adult,P
+530,Lingerie,Adult,A
+531,Transexual Sex,Adult,P
