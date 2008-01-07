@@ -219,6 +219,8 @@ sub su_login {
 		my @linesplit = split(/ /, $line);
 		if(@linesplit[0] eq 'USER') {
 			$user_id = @linesplit[1];
+		} elsif(@linesplit[0] eq 'NICK') {
+			$user_nick = @linesplit[1];
 		} elsif(@linesplit[0] eq 'ERROR') {
 			if(@linesplit[1] eq 'DATABASE_FAILURE') {
 				print 'ERROR SERVER_DOWN'; exit;
@@ -240,6 +242,7 @@ sub su_login {
 	
 	open($fout, '>', $CONF_DIR . 'auth');
 	print $fout '$USER_ID = \'' . $user_id . '\';' . "\n";
+	print $fout '$USER_NICK = \'' . $user_nick . '\';' . "\n";
 	print $fout '$USER_PASS = \'' . $user_pass . '\';' . "\n";
 	close($fout);
 	
@@ -447,4 +450,9 @@ if($ARG eq 'login') {
 	review(@ARGV);
 } elsif($ARG eq 'arg_list') {
 	arg_list(@ARGV);
+} elsif($ARG eq 'link') {
+	$what = shift;
+	if($what eq 'profile') {
+		print 'URI http://' . $USER_NICK . '.stumbleupon.com/'; exit;
+	}
 }
