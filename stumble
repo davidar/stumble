@@ -89,6 +89,8 @@ sub do_http_req {
 	my $uri = shift;
 	my $post_data = shift;
 	
+	print 'URI: ' . $uri . "\n" . 'POST_DATA: ' . $post_data . "\n" . 'RESULT:' . "\n" if($ENV{'STUMBLEDEBUG'});
+	
 	# create a user agent object
 	my $httphandler = LWP::UserAgent->new();
 	$httphandler->agent('Mozilla/5.0 (compatible; Stumble ' . $PROG_VER . ')');
@@ -110,6 +112,8 @@ sub do_http_req {
 	if ($httpres->is_error) {
 		print 'ERROR HTTP_REQ ' . $uri . ' ' . $post_data; exit;
 	}
+	
+	print $httpres->content . "\n\n" if($ENV{'STUMBLEDEBUG'});
 	
 	return $httpres;
 }
@@ -450,6 +454,8 @@ if($ARG eq 'login') {
 	review(@ARGV);
 } elsif($ARG eq 'arg_list') {
 	arg_list(@ARGV);
+} elsif($ARG eq 'http_req') {
+	print do_http_req(@ARGV)->content;
 } elsif($ARG eq 'link') {
 	$what = shift;
 	if($what eq 'profile') {
