@@ -81,6 +81,22 @@ $COOKIE_JAR = HTTP::Cookies->new(
 	autosave => 1
 );
 
+%PINFO_MAP = (
+	'category' => 0, # category id
+	'referrer' => 1, # unused
+	'actual_url' => 2, # unused
+	'firstrater' => 3, # userid of submitter
+	'firstrater_nick' => 4, # nick of submitter
+	'lang_code' => 5,
+	'cluster_type' => 6, # stumble type: 3 => sponsored stumble, 4 => referral
+	'urlid' => 7,
+	'affiliate_url' => 8,
+	'comment_level' => 9,
+	'rec_type' => 10,
+	'referral_note' => 11, # not present
+	'referralid' => 12, # not present
+);
+
 sub hash_pass {
 	return sha1_base64('StumbleUpon public salt' . $_[0] . $_[1]) . '=';
 }
@@ -89,7 +105,7 @@ sub do_http_req {
 	my $uri = shift;
 	my $post_data = shift;
 	
-	print 'URI: ' . $uri . "\n" . 'POST_DATA: ' . $post_data . "\n" . 'RESULT:' . "\n" if($ENV{'STUMBLEDEBUG'});
+	warn 'URI: ' . $uri . "\n" . 'POST_DATA: ' . $post_data . "\n" . 'RESULT:' . "\n" if($ENV{'STUMBLEDEBUG'});
 	
 	# create a user agent object
 	my $httphandler = LWP::UserAgent->new();
@@ -113,7 +129,7 @@ sub do_http_req {
 		print 'ERROR HTTP_REQ ' . $uri . ' ' . $post_data; exit;
 	}
 	
-	print $httpres->content . "\n\n" if($ENV{'STUMBLEDEBUG'});
+	warn $httpres->content . "\n\n" if($ENV{'STUMBLEDEBUG'});
 	
 	return $httpres;
 }
@@ -169,18 +185,6 @@ sub update_recs {
 				next;
 			}
 			
-			# format of $PINFO{$uri}:
-			# category id
-			# referer (unused)
-			# actual uri (unused)
-			# userid of submitter
-			# nick of sumbitter
-			# language
-			# stumble type: 3 => sponsored stumble, 4 => referral
-			# ?
-			# ?
-			# ?
-			# ?
 			$PINFO{$uri} = join(' ', @linesplit);
 			
 			push(@RECS, $uri);
@@ -259,6 +263,31 @@ sub su_login {
 # 	);
 }
 
+sub get_pinfo {
+	my $uri = shift;
+	my $att = shift;
+	
+	my $attid = $PINFO_MAP{$att};
+	my @atts = split(/ /, $PINFO{$uri});
+	return $atts[$attid];
+}
+
+sub submit_stumble {
+	my $uri = shift;
+	
+	my $urlids = get_pinfo();
+	
+	do_http_req('http://www.stumbleupon.com/recommend.php?username=' . $USER_ID,
+	   'urlids=' . get_pinfo($uri, 'urlid')
+	 . '&timestamps=' . time
+	 . '&types=' . get_pinfo($uri, 'rec_type')
+	 . '&referralids=' . get_pinfo($uri, 'referralid')
+	 . '&version=' . $MOZBAR_VER
+	 . '&username=' . $USER_ID
+	 . '&password=' . uri_escape($USER_PASS)
+	);
+}
+
 sub rec_uri {
 	if(!@RECS) {
 		update_recs();
@@ -268,6 +297,8 @@ sub rec_uri {
 	dump_array('@RECS', $CONF_DIR . 'recs', @RECS);
 	push(@HIST, $uri);
 	dump_array('@HIST', $CONF_DIR . 'hist', @HIST);
+	
+	submit_stumble($uri);
 	
 	print 'URI ' . $uri; exit;
 }
