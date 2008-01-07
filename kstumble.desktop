@@ -1,8 +1,10 @@
+# (c) 2007-2008 David Roberts
+
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
 X-KDE-Submenu=StumbleUpon
-ServiceTypes=text/*,image/*
+ServiceTypes=text/*,image/*,audio/*,video/*,application/pdf,application/x-shockwave-flash
 Actions=stumble;rate_up;rate_down;rate_undo;profile;login;
 
 [Desktop Action stumble]
