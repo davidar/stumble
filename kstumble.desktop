@@ -3,7 +3,7 @@ Encoding=UTF-8
 Type=Service
 X-KDE-Submenu=StumbleUpon
 ServiceTypes=text/*,image/*
-Actions=stumble;rate_up;rate_down;rate_undo;login;
+Actions=stumble;rate_up;rate_down;rate_undo;profile;login;
 
 [Desktop Action stumble]
 Name=Stumble!
@@ -24,6 +24,11 @@ Icon=cancel
 Name=Remove rating on this site
 Exec=kstumble rate undo %u
 Icon=undo
+
+[Desktop Action profile]
+Name=Go to StumbleUpon Profile Page
+Exec=kstumble link profile %u
+Icon=favorites
 
 [Desktop Action login]
 Name=Login to StumbleUpon

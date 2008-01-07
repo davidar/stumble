@@ -60,7 +60,7 @@ check_newurl() {
   fi
 }
 
-do_stumble() {
+open_uri() {
   if [ "$1" = URI ]
   then
     shift
@@ -115,7 +115,13 @@ if [ "$1" = "stumble" ]
 then
   OUTPUT="`stumble recommend`"
   check_errors $OUTPUT
-  OUTPUT="`do_stumble $OUTPUT`"
+  OUTPUT="`open_uri $OUTPUT`"
+fi
+if [ "$1" = "link" ]
+then
+  OUTPUT="`stumble $*`"
+  check_errors $OUTPUT
+  OUTPUT="`open_uri $OUTPUT`"
 fi
 
 check_errors $OUTPUT
