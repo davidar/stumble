@@ -26,6 +26,9 @@ if(-f $CONF_DIR . 'auth') {
 } elsif($ARG ne 'login') {
 	print 'ERROR PLEASE_LOGIN'; exit;
 }
+$AUTH_STR = 'version=' . $MOZBAR_VER
+        . '&username=' . $USER_ID
+        . '&password=' . uri_escape($USER_PASS);
 
 open($fout, '>', $CONF_DIR . 'version');
 print $fout $PROG_VER;
@@ -169,9 +172,7 @@ sub dump_hash {
 sub update_recs {
 	my $rec_data = do_http_req('http://www.stumbleupon.com/recommend.php?username=' . $USER_ID,
 	   'category=0'
-	 . '&version=' . $MOZBAR_VER
-	 . '&username=' . $USER_ID
-	 . '&password=' . uri_escape($USER_PASS)
+	 . '&' . $AUTH_STR
 	);
 	
 	# parse response
@@ -253,14 +254,6 @@ sub su_login {
 	print $fout '$USER_NICK = \'' . $user_nick . '\';' . "\n";
 	print $fout '$USER_PASS = \'' . $user_pass . '\';' . "\n";
 	close($fout);
-	
-# 	do_http_req('http://www.stumbleupon.com/recommend.php?username=' . $USER_ID,
-# 	   'category=0'
-# 	 . '&check_referral=1'
-# 	 . '&version=' . $MOZBAR_VER
-# 	 . '&username=' . $user_id
-# 	 . '&password=' . uri_escape($user_pass)
-# 	);
 }
 
 sub get_pinfo {
@@ -282,9 +275,7 @@ sub submit_stumble {
 	 . '&timestamps=' . time
 	 . '&types=' . get_pinfo($uri, 'rec_type')
 	 . '&referralids=' . get_pinfo($uri, 'referralid')
-	 . '&version=' . $MOZBAR_VER
-	 . '&username=' . $USER_ID
-	 . '&password=' . uri_escape($USER_PASS)
+	 . '&' . $AUTH_STR
 	);
 }
 
@@ -313,9 +304,7 @@ sub rate {
 	if($rating eq 'undo') {
 		do_http_req('http://www.stumbleupon.com/unrate.php?username=' . $USER_ID,
 		  'url=' . uri_escape($uri)
-		. '&version=' . $MOZBAR_VER
-		. '&username=' . $USER_ID
-		. '&password=' . uri_escape($USER_PASS)
+		. '&' . $AUTH_STR
 		);
 	} else {
 		if($rating eq 'up') {
@@ -329,9 +318,7 @@ sub rate {
 		my $rate_data = do_http_req('http://www.stumbleupon.com/rate.php?username=' . $USER_ID,
 		  'rating=' . $rating_bool
 		. '&url=' . uri_escape($uri)
-		. '&version=' . $MOZBAR_VER
-		. '&username=' . $USER_ID
-		. '&password=' . uri_escape($USER_PASS)
+		. '&' . $AUTH_STR
 		);
 		
 		# parse response
