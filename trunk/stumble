@@ -7,7 +7,8 @@ use URI::Escape;
 use HTML::Parser;
 use HTTP::Cookies;
 
-$PROG_VER = '0.1';
+$PROG_VER = '0.1+svn';
+$CONF_VER = '0';
 
 $MOZBAR_VER = 'mozbar%203.16%20xpi';
 
@@ -96,7 +97,7 @@ $AUTH_STR = 'version=' . $MOZBAR_VER
         . '&username=' . $USER{'ID'}
         . '&password=' . uri_escape($USER{'PASS'});
 
-save_config_array('version', $PROG_VER);
+save_config_array('version', $CONF_VER);
 
 @RECS = load_config_array('recs');
 @HIST = load_config_array('hist');
@@ -144,6 +145,7 @@ sub do_http_req {
 	my $httphandler = LWP::UserAgent->new();
 	$httphandler->agent('Mozilla/5.0 (compatible; Stumble ' . $PROG_VER . ')');
 	$httphandler->cookie_jar($COOKIE_JAR);
+	$httphandler->env_proxy; # load proxy setting from *_proxy env variables
 	
 	# create a request
 	if(defined $post_data) {
