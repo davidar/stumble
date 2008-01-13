@@ -3,7 +3,7 @@ MKDIR=mkdir
 
 BINDIR=/usr/bin
 DATADIR=/usr/share/stumble
-SMDIR=/usr/share/apps/konqueror/servicemenus
+SMDIR=$(shell kde-config --prefix)/share/apps/konqueror/servicemenus
 
 install:
 	$(MKDIR) -p $(DATADIR)
