@@ -1,3 +1,13 @@
-To install, run `sudo make install` (or `su -c "make install"` if you do not use
-sudo). To uninstall, run `sudo make uninstall` (or `su -c "make uninstall"` if
-you do not use sudo).
+To install, run `sudo make install-x` (or `su -c "make install-x"` if you do not
+use sudo), replacing 'install-x' with one of the following:
+- install-stumble
+  Just install the stumble command line interface.
+- install-kstumble
+  Install the stumble command line interface, and the kstumble shell script. I
+  don't see why this option would be used, but it's there if you need it.
+- install-kde
+  Install the stumble command line interface, the kstumble shell script, and the
+  Konqueror service menu. This is the recommended option.
+
+To uninstall, run the same commands as above, except replacing 'install' with
+'uninstall'
