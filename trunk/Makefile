@@ -5,6 +5,9 @@ BINDIR=/usr/bin
 DATADIR=/usr/share/stumble
 SMDIR=$(shell kde-config --prefix)/share/apps/konqueror/servicemenus
 
+KDE4PREFIX=/usr/lib/kde4
+SMDIR4=$(KDE4PREFIX)/share/kde4/services/ServiceMenus
+
 
 install-stumble:
 	$(MKDIR) -p $(DATADIR)
@@ -18,6 +21,10 @@ install-kde: install-kstumble
 	$(MKDIR) -p $(SMDIR)
 	$(INSTALL) -m 644 kstumble.desktop $(SMDIR)
 
+install-kde4: install-kstumble
+	$(MKDIR) -p $(SMDIR4)
+	$(INSTALL) -m 644 kstumble.desktop $(SMDIR4)
+
 
 uninstall-stumble:
 	-rm -rf $(DATADIR)
@@ -28,3 +35,6 @@ uninstall-kstumble: uninstall-stumble
 
 uninstall-kde: uninstall-kstumble
 	-rm -f $(SMDIR)/kstumble.desktop
+
+uninstall-kde4: uninstall-kstumble
+	-rm -f $(SMDIR4)/kstumble.desktop
