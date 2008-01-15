@@ -5,10 +5,11 @@ APP_NAME=KStumble
 
 die() {
   kdialog --title "Error | $APP_NAME" --error "$*"
+  exit 1
 }
 
 konq_getver() {
-  KONQ_VER=`/proc/$PPID/exe --version | grep '^Konqueror: ' | awk -F '' '{print $12;}'`
+  KONQ_VER="`/proc/$PPID/exe --version | grep '^Konqueror: ' | awk -F '' '{print $12;}'`"
   [ "$KONQ_VER" != "3" ] && [ "$KONQ_VER" != "4" ] && die "Unknown Konqueror version '$KONQ_VER'."
 }
 
@@ -115,7 +116,7 @@ check_errors() {
     [ "$1" = NO_INTERESTS ] && konq_newtab "http://www.stumbleupon.com/choose_topics.php"
     [ "$1" = PLEASE_LOGIN ] && su_login
     
-    exit
+    exit 1
   fi
 }
 
