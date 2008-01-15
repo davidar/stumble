@@ -1,0 +1,5 @@
+0.2:
+- added proxy support
+- service menu installs to path indicated by `kde-config --prefix`
+- separated install sections in Makefile, please refer to INSTALL
+- added beta KDE4 support
