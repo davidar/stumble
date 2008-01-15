@@ -3,12 +3,28 @@
 
 APP_NAME=KStumble
 
+die() {
+  kdialog --title "Error | $APP_NAME" --error "$*"
+}
+
+konq_getver() {
+  KONQ_VER=`/proc/$PPID/exe --version | grep '^Konqueror: ' | awk -F '' '{print $12;}'`
+  [ "$KONQ_VER" != "3" ] && [ "$KONQ_VER" != "4" ] && die "Unknown Konqueror version '$KONQ_VER'."
+}
+
+# see http://lxr.kde.org/source/KDE/kdebase/apps/konqueror/src/konqview.cpp#212
+# in KonqView::openUrl for description of second argument in the following dbus calls
+
 konq_newtab() {
-  dcop konqueror-$PPID konqueror-mainwindow#1 newTab "$1"
+  konq_getver
+  [ "$KONQ_VER" = "3" ] && dcop konqueror-$PPID konqueror-mainwindow#1 newTab "$1"
+  [ "$KONQ_VER" = "4" ] && qdbus org.kde.konqueror-$PPID /konqueror/MainWindow_1 newTab "$1" 0
 }
 
 konq_thistab() {
-  dcop konqueror-$PPID konqueror-mainwindow#1 openURL "$1"
+  konq_getver
+  [ "$KONQ_VER" = "3" ] && dcop konqueror-$PPID konqueror-mainwindow#1 openURL "$1"
+  [ "$KONQ_VER" = "4" ] && qdbus org.kde.konqueror-$PPID /konqueror/MainWindow_1 openUrl "$1" 0
 }
 
 su_login() {
