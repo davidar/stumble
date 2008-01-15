@@ -6,6 +6,9 @@ Type=Service
 X-KDE-Submenu=StumbleUpon
 ServiceTypes=text/*,image/*,audio/*,video/*,application/pdf,application/x-shockwave-flash
 Actions=stumble;rate_up;rate_down;rate_undo;profile;login;
+# for KDE4
+MimeType=application/octet-stream;
+X-KDE-ServiceTypes=text/*,image/*,audio/*,video/*,application/pdf,application/x-shockwave-flash,KonqPopupMenu/Plugin
 
 [Desktop Action stumble]
 Name=Stumble!
