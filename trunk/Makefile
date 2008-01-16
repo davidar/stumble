@@ -23,7 +23,7 @@ install-kde: install-kstumble
 
 install-kde4: install-kstumble
 	$(MKDIR) -p $(SMDIR4)
-	$(INSTALL) -m 644 kstumble.desktop $(SMDIR4)
+	$(INSTALL) -m 644 -T kstumble-kde4.desktop $(SMDIR4)/kstumble.desktop
 
 
 uninstall-stumble:
