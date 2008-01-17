@@ -1,0 +1,478 @@
+#!/usr/bin/perl
+# (c) 2007-2008 David Roberts
+
+use LWP;
+use Digest::SHA1 qw(sha1_base64);
+use URI::Escape;
+use HTML::Parser;
+use HTTP::Cookies;
+
+$PROG_VER = '0.2';
+$CONF_VER = '0';
+
+$MOZBAR_VER = 'mozbar%203.16%20xpi';
+
+$DATA_DIR = '/usr/share/stumble/';
+$CONF_DIR = $ENV{'HOME'} . '/.stumble/';
+
+mkdir $CONF_DIR;
+
+$ARG = shift;
+
+sub save_config_array {
+	my $fname = shift;
+	my $fname = $CONF_DIR . $fname;
+	
+	open(CONFIG, '>', $fname);
+	
+	foreach my $val (@_) {
+		print CONFIG $val . "\n"
+	}
+	
+	close(CONFIG);
+}
+
+sub save_config_hash {
+	my $fname = shift;
+	my $fname = $CONF_DIR . $fname;
+	my $hash_ref = shift;
+	
+	open(CONFIG, '>', $fname);
+	
+	foreach my $key (keys %$hash_ref) {
+		$val = $hash_ref->{$key};
+		print CONFIG $key . "\t" . $val . "\n"
+	}
+	
+	close(CONFIG);
+}
+
+sub load_config_array {
+	my $fname = shift;
+	my $fname = $CONF_DIR . $fname;
+	
+	my @array = ();
+	
+	if(-f $fname) {
+		open(CONF, '<', $fname);
+		
+		while(<CONF>) {
+			chomp;
+			push(@array, $_);
+		}
+		
+		close(CONF);
+	}
+	
+	return @array;
+}
+
+sub load_config_hash {
+	my $fname = shift;
+	my $fname = $CONF_DIR . $fname;
+	
+	my %hash = ();
+	
+	if(-f $fname) {
+		open(CONF, '<', $fname);
+		
+		while(<CONF>) {
+			chomp;
+			my ($key, $val) = split(/\t/);
+			$hash{$key} = $val;
+		}
+		
+		close(CONF);
+	}
+	
+	return %hash;
+}
+
+%USER = load_config_hash('auth');
+if(($USER{'ID'} eq '' or $USER{'PASS'} eq '' or $USER{'NICK'} eq '') and $ARG ne 'login') {
+	print 'ERROR PLEASE_LOGIN'; exit;
+}
+
+$AUTH_STR = 'version=' . $MOZBAR_VER
+        . '&username=' . $USER{'ID'}
+        . '&password=' . uri_escape($USER{'PASS'});
+
+save_config_array('version', $CONF_VER);
+
+@RECS = load_config_array('recs');
+@HIST = load_config_array('hist');
+
+%PINFO = load_config_hash('pinfo');
+%RATINGS = load_config_hash('ratings');
+%R_TITLES = load_config_hash('r_titles');
+%R_COMMENTS = load_config_hash('r_comments');
+%R_TOPICS = load_config_hash('r_topics');
+%R_ADULT = load_config_hash('r_adult');
+%R_LANG = load_config_hash('r_lang');
+
+$COOKIE_JAR = HTTP::Cookies->new(
+	file => $CONF_DIR . 'cookies',
+	autosave => 1
+);
+
+%PINFO_MAP = (
+	'category' => 0, # category id
+	'referrer' => 1, # unused
+	'actual_url' => 2, # unused
+	'firstrater' => 3, # userid of submitter
+	'firstrater_nick' => 4, # nick of submitter
+	'lang_code' => 5,
+	'cluster_type' => 6, # stumble type: 3 => sponsored stumble, 4 => referral
+	'urlid' => 7,
+	'affiliate_url' => 8,
+	'comment_level' => 9,
+	'rec_type' => 10,
+	'referral_note' => 11, # not present
+	'referralid' => 12, # not present
+);
+
+sub hash_pass {
+	return sha1_base64('StumbleUpon public salt' . $_[0] . $_[1]) . '=';
+}
+
+sub do_http_req {
+	my $uri = shift;
+	my $post_data = shift;
+	
+	warn 'URI: ' . $uri . "\n" . 'POST_DATA: ' . $post_data . "\n" . 'RESULT:' . "\n" if($ENV{'STUMBLEDEBUG'});
+	
+	# create a user agent object
+	my $httphandler = LWP::UserAgent->new();
+	$httphandler->agent('Mozilla/5.0 (compatible; Stumble ' . $PROG_VER . ')');
+	$httphandler->cookie_jar($COOKIE_JAR);
+	$httphandler->env_proxy; # load proxy setting from *_proxy env variables
+	
+	# create a request
+	if(defined $post_data) {
+		$httpreq = HTTP::Request->new(POST => $uri);
+		$httpreq->content_type('application/x-www-form-urlencoded');
+		$httpreq->content($post_data);
+	} else {
+		$httpreq = HTTP::Request->new(GET => $uri);
+	}
+	
+	# pass request to the user agent and get a response back
+	my $httpres = $httphandler->request($httpreq);
+	
+	# check the outcome of the response
+	if ($httpres->is_error) {
+		print 'ERROR HTTP_REQ ' . $uri . ' ' . $post_data; exit;
+	}
+	
+	warn $httpres->content . "\n\n" if($ENV{'STUMBLEDEBUG'});
+	
+	return $httpres;
+}
+
+sub update_recs {
+	my $rec_data = do_http_req('http://www.stumbleupon.com/recommend.php?username=' . $USER{'ID'},
+	   'category=0'
+	 . '&' . $AUTH_STR
+	);
+	
+	# parse response
+	foreach $line (split(/\n/, $rec_data->content)) {
+		my @linesplit = split(/ /, $line);
+		if(@linesplit[0] eq 'URL') {
+			shift(@linesplit);
+			my $uri = shift(@linesplit);
+			
+			if(grep $_ eq $uri, @HIST) { # already visited this link
+				next;
+			}
+			
+			$PINFO{$uri} = join(' ', @linesplit);
+			
+			push(@RECS, $uri);
+		} elsif(@linesplit[0] eq 'ERROR') {
+			if(@linesplit[1] eq 'NO_INTERESTS') {
+				print 'ERROR NO_INTERESTS'; exit;
+			} elsif(@linesplit[1] eq 'NO_SITES') {
+				print 'ERROR NO_SITES'; exit;
+			} else {
+				print 'ERROR SU ' . @linesplit[1]; exit;
+			}
+		}
+	}
+	
+	save_config_array('recs', @RECS);
+	save_config_hash('pinfo', \%PINFO);
+}
+
+sub su_login {
+	$USER{'NICK'} = shift;
+	$USER{'PASS'} = shift;
+	
+	$COOKIE_JAR->clear;
+	
+	do_http_req('http://www.stumbleupon.com/login.php',
+	   'session_url=home'
+	 . '&username=' . $USER{'NICK'}
+	 . '&password=' . uri_escape($USER{'PASS'})
+	);
+	
+	# create a request
+	my $user_info = do_http_req('http://www.stumbleupon.com/userexists.php?username=0',
+	   'version=' . $MOZBAR_VER
+	 . '&username=' . $USER{'NICK'}
+	 . '&password=' . uri_escape(hash_pass(lc($USER{'NICK'}), $USER{'PASS'}))
+	);
+	
+	# parse response
+	foreach my $line (split(/\n/, $user_info->content)) {
+		my @linesplit = split(/ /, $line);
+		if(@linesplit[0] eq 'USER') {
+			$USER{'ID'} = @linesplit[1];
+		} elsif(@linesplit[0] eq 'NICK') {
+			$USER{'NICK'} = @linesplit[1];
+		} elsif(@linesplit[0] eq 'ERROR') {
+			if(@linesplit[1] eq 'DATABASE_FAILURE') {
+				print 'ERROR SERVER_DOWN'; exit;
+			} elsif(@linesplit[1] eq 'NO_SUCH_USERNAME') {
+				print 'ERROR INVALID_USER'; exit;
+			} elsif(@linesplit[1] eq 'INCORRECT_PASSWORD') {
+				print 'ERROR INVALID_PASS'; exit;
+			}
+			print 'ERROR SU ' . @linesplit[1]; exit;
+		}
+	}
+	
+	if($USER{'ID'} eq '' or $USER{'PASS'} eq '') {
+		print 'ERROR LOGIN'; exit;
+	}
+	
+	# hash password
+	$USER{'PASS'} = hash_pass($USER{'ID'}, $USER{'PASS'});
+	
+	save_config_hash('auth', \%USER);
+}
+
+sub get_pinfo {
+	my $uri = shift;
+	my $att = shift;
+	
+	my $attid = $PINFO_MAP{$att};
+	my @atts = split(/ /, $PINFO{$uri});
+	return $atts[$attid];
+}
+
+sub submit_stumble {
+	my $uri = shift;
+	
+	my $urlids = get_pinfo();
+	
+	do_http_req('http://www.stumbleupon.com/recommend.php?username=' . $USER{'ID'},
+	   'urlids=' . get_pinfo($uri, 'urlid')
+	 . '&timestamps=' . time
+	 . '&types=' . get_pinfo($uri, 'rec_type')
+	 . '&referralids=' . get_pinfo($uri, 'referralid')
+	 . '&' . $AUTH_STR
+	);
+}
+
+sub rec_uri {
+	if(!@RECS) {
+		update_recs();
+	}
+	
+	my $uri = pop(@RECS);
+	save_config_array('recs', @RECS);
+	push(@HIST, $uri);
+	save_config_array('hist', @HIST);
+	
+	submit_stumble($uri);
+	
+	print 'URI ' . $uri; exit;
+}
+
+sub rate {
+	my $rating = shift;
+	my $uri = shift;
+	
+	$RATINGS{$uri} = $rating;
+	save_config_hash('ratings', \%RATINGS);
+	
+	if($rating eq 'undo') {
+		do_http_req('http://www.stumbleupon.com/unrate.php?username=' . $USER{'ID'},
+		  'url=' . uri_escape($uri)
+		. '&' . $AUTH_STR
+		);
+	} else {
+		if($rating eq 'up') {
+			$rating_bool = 1;
+		} elsif($rating eq 'down') {
+			$rating_bool = 0;
+		} else {
+			exit;
+		}
+		
+		my $rate_data = do_http_req('http://www.stumbleupon.com/rate.php?username=' . $USER{'ID'},
+		  'rating=' . $rating_bool
+		. '&url=' . uri_escape($uri)
+		. '&' . $AUTH_STR
+		);
+		
+		# parse response
+		foreach my $line (split(/\n/, $rate_data->content)) {
+			my @linesplit = split(/ /, $line);
+			if(@linesplit[0] eq 'NEWURL') {
+				if($rating eq 'up') {
+					my $title = do_http_req($uri)->title;
+					print 'NEWURL ' . $title; exit;
+				} elsif($rating eq 'down') {
+					print 'ERROR UNSEEN'; exit;
+				}
+			} elsif(@linesplit[0] eq 'ERROR') {
+				if(@linesplit[1] eq 'BAD_URL') {
+					print 'ERROR INVALID_URI'; exit;
+				}
+				print 'ERROR SU ' . @linesplit[1]; exit;
+			}
+		}
+	}
+}
+
+sub start_handler {
+	my $tag = shift;
+	my $attr = shift;
+	
+	if($tag eq 'input' and $attr->{'name'} eq 'token_newurl1') {
+		$token = $attr->{'value'};
+	}
+}
+
+sub get_newurl_token {
+	my $uri = shift;
+	
+	my $parser = HTML::Parser->new(api_version => 3);
+	$parser->handler(start => \&start_handler, 'tag, attr');
+	$parser->parse(do_http_req('http://www.stumbleupon.com/newurl.php', 'url=' . uri_escape($uri))->content);
+	
+	return $token;
+}
+
+sub review {
+	my $uri = shift;
+	my $title = shift;
+	my $comment = shift;
+	my $topic = shift; $topic eq '' and $topic = 0;
+	my $adult = shift; $adult eq '' and $adult = 0;
+	my $lang = shift; $lang eq '' and $lang = 'EN';
+	
+	$R_TITLES{$uri} = $title;	save_config_hash('r_titles', \%R_TITLES);
+	$R_COMMENTS{$uri} = $comment;	save_config_hash('r_comments', \%R_COMMENTS);
+	$R_TOPICS{$uri} = $topic;	save_config_hash('r_topics', \%R_TOPICS);
+	$R_ADULT{$uri} = $adult;	save_config_hash('r_adult', \%R_ADULT);
+	$R_LANG{$uri} = $lang;		save_config_hash('r_lang', \%R_LANG);
+	
+	my $token = get_newurl_token($uri);
+	
+	if(!defined($token)) {
+		print 'ERROR NEWURL_TOKEN'; exit;
+	}
+	
+	my $ret = do_http_req('http://www.stumbleupon.com/newurl.php',
+	   'token_newurl1=' . $token
+	 . '&analytics_referring_source=noreferer'
+	 . '&url=' . uri_escape($uri)
+	 . '&referer='
+	 . '&topic='
+	 . '&title='. uri_escape($title)
+	 . '&newcomment=' . uri_escape($comment)
+	 . '&topicid=' . $topic
+	 . '&adult=' . $adult
+	 . '&language=' . $lang
+	 . '&submitsite=Submit+this+Site+%3E%3E'
+	);
+	
+	if(!($ret->content =~ m/RATING_SUBMITTED/)) {
+		print 'ERROR REVIEW_SUBMIT'; exit; # error submitting review
+	}
+}
+
+sub arg_list {
+	$of = shift;
+	if($of eq 'lang') {
+		open(LANG_CSV, '<', $DATA_DIR . 'lang.csv');
+		while(<LANG_CSV>) {
+			chomp;
+			my @col = split(/,/);
+			
+			my $code = @col[0];
+			my $name = @col[1];
+			
+			print $code . ' ' . $name . ' ';
+		}
+	} elsif($of eq 'topic_sections') {
+		my @secs = ();
+		open(LANG_CSV, '<', $DATA_DIR . 'topics.csv');
+		
+		while(<LANG_CSV>) {
+			chomp;
+			s/ /_/g;
+			my @col = split(/,/);
+			
+			my $id = @col[0];
+			my $name = @col[1];
+			my $sec = @col[2];
+			
+			if(!(grep $_ eq $sec, @secs) and $sec ne '') {
+				push(@secs, $sec);
+			}
+		}
+		
+		@secs = sort(@secs);
+		foreach my $sec (@secs) {
+			print $sec . ' ' . $sec . ' ';
+		}
+	} elsif($of eq 'topics') {
+		my $tsec = shift;
+		my %topics = ();
+		open(LANG_CSV, '<', $DATA_DIR . 'topics.csv');
+		
+		while(<LANG_CSV>) {
+			chomp;
+			s/ /_/g;
+			my @col = split(/,/);
+			
+			my $id = @col[0];
+			my $name = @col[1];
+			my $sec = @col[2];
+			
+			if($sec eq $tsec) {
+				$topics{$name} = $id;
+			}
+		}
+		
+		my @topic_keys = sort(keys %topics);
+		
+		foreach my $topic (@topic_keys) {
+			$id = $topics{$topic};
+			print $id . ' ' . $topic . ' ';
+		}
+	}
+}
+
+if($ARG eq 'login') {
+	su_login(@ARGV);
+} elsif($ARG eq 'recommend') {
+	rec_uri;
+} elsif($ARG eq 'rate') {
+	rate(@ARGV);
+} elsif($ARG eq 'review') {
+	review(@ARGV);
+} elsif($ARG eq 'arg_list') {
+	arg_list(@ARGV);
+} elsif($ARG eq 'http_req') {
+	print do_http_req(@ARGV)->content;
+} elsif($ARG eq 'link') {
+	$what = shift;
+	if($what eq 'profile') {
+		print 'URI http://' . $USER{'NICK'} . '.stumbleupon.com/'; exit;
+	}
+}

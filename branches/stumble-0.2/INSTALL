@@ -1,0 +1,27 @@
+INSTALLATION
+To install, run `sudo make install-x` (or `su -c "make install-x"` if you do not
+use sudo), replacing 'install-x' with one of the following:
+- install-stumble
+  Just install the stumble command line interface.
+- install-kstumble
+  Install the stumble command line interface, and the kstumble shell script. I
+  don't see why this option would be used, but it's there if you need it.
+- install-kde
+  Install the stumble command line interface, the kstumble shell script, and the
+  Konqueror service menu. This is the recommended option.
+- install-kde4
+  Install the stumble command line interface, the kstumble shell script, and the
+  Konqueror service menu for KDE4. Please refer to the section below titled
+  'KDE4 SUPPORT'.
+
+REMOVAL
+To uninstall, run the same commands as above, except replacing 'install' with
+'uninstall'
+
+KDE4 SUPPORT
+KDE4 support is not perfect at the moment - there may be some bugs in the
+interface (no submenu title, perhaps others), but all the basic functionality
+seems to work the same. The Makefile assumes KDE4 is installed to /usr/lib/kde4,
+as is the case in Ubuntu Gutsy at the moment (and perhaps some other
+distributions as well). If this is not the case for your system, please find the
+line 'KDE4PREFIX=/usr/lib/kde4' and update it to the correct path.

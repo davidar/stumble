@@ -1,0 +1,41 @@
+# (c) 2007-2008 David Roberts
+
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+X-KDE-Submenu=StumbleUpon
+ServiceTypes=text/*,image/*,audio/*,video/*,application/pdf,application/x-shockwave-flash
+Actions=stumble;rate_up;rate_down;rate_undo;profile;login;
+# for KDE4
+MimeType=application/octet-stream;
+X-KDE-ServiceTypes=text/*,image/*,audio/*,video/*,application/pdf,application/x-shockwave-flash,KonqPopupMenu/Plugin
+
+[Desktop Action stumble]
+Name=Stumble!
+Exec=kstumble stumble %u
+Icon=favorites
+
+[Desktop Action rate_up]
+Name=Rate this site positively
+Exec=kstumble rate up %u
+Icon=ok
+
+[Desktop Action rate_down]
+Name=Rate this site negatively
+Exec=kstumble rate down %u
+Icon=cancel
+
+[Desktop Action rate_undo]
+Name=Remove rating on this site
+Exec=kstumble rate undo %u
+Icon=undo
+
+[Desktop Action profile]
+Name=Go to StumbleUpon Profile Page
+Exec=kstumble link profile %u
+Icon=favorites
+
+[Desktop Action login]
+Name=Login to StumbleUpon
+Exec=kstumble login %u
+Icon=configure
