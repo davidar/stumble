@@ -7,7 +7,7 @@ use URI::Escape;
 use HTML::Parser;
 use HTTP::Cookies;
 
-$PROG_VER = '0.1+svn';
+$PROG_VER = '0.2';
 $CONF_VER = '0';
 
 $MOZBAR_VER = 'mozbar%203.16%20xpi';
