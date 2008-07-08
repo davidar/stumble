@@ -12,30 +12,30 @@ X-KDE-ServiceTypes=text/*,image/*,audio/*,video/*,application/pdf,application/x-
 
 [Desktop Action stumble]
 Name=Stumble!
-Exec=kstumble stumble %u
+Exec=kstumble 3 stumble %u
 Icon=favorites
 
 [Desktop Action rate_up]
 Name=Rate this site positively
-Exec=kstumble rate up %u
+Exec=kstumble 3 rate up %u
 Icon=ok
 
 [Desktop Action rate_down]
 Name=Rate this site negatively
-Exec=kstumble rate down %u
+Exec=kstumble 3 rate down %u
 Icon=cancel
 
 [Desktop Action rate_undo]
 Name=Remove rating on this site
-Exec=kstumble rate undo %u
+Exec=kstumble 3 rate undo %u
 Icon=undo
 
 [Desktop Action profile]
 Name=Go to StumbleUpon Profile Page
-Exec=kstumble link profile %u
+Exec=kstumble 3 link profile %u
 Icon=favorites
 
 [Desktop Action login]
 Name=Login to StumbleUpon
-Exec=kstumble login %u
+Exec=kstumble 3 login %u
 Icon=configure
