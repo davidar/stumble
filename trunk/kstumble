@@ -8,7 +8,9 @@ die() {
   exit 1
 }
 
-KONQ_VER="`/proc/$PPID/exe --version | grep '^Konqueror: ' | awk -F '' '{print $12;}'`"
+#KONQ_VER="`/proc/$PPID/exe --version | grep '^Konqueror: ' | awk -F '' '{print $12;}'`"
+KONQ_VER="$1"
+shift
 [ "$KONQ_VER" != "3" ] && [ "$KONQ_VER" != "4" ] && die "Unknown Konqueror version '$KONQ_VER'."
 
 # see http://lxr.kde.org/source/KDE/kdebase/apps/konqueror/src/konqview.cpp#212

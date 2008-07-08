@@ -10,30 +10,30 @@ Actions=stumble;rate_up;rate_down;rate_undo;profile;login;
 
 [Desktop Action stumble]
 Name=Stumble!
-Exec=kstumble stumble %u
+Exec=kstumble 4 stumble %u
 Icon=favorites
 
 [Desktop Action rate_up]
 Name=Rate this site positively
-Exec=kstumble rate up %u
+Exec=kstumble 4 rate up %u
 Icon=dialog-ok
 
 [Desktop Action rate_down]
 Name=Rate this site negatively
-Exec=kstumble rate down %u
+Exec=kstumble 4 rate down %u
 Icon=dialog-cancel
 
 [Desktop Action rate_undo]
 Name=Remove rating on this site
-Exec=kstumble rate undo %u
+Exec=kstumble 4 rate undo %u
 Icon=edit-undo
 
 [Desktop Action profile]
 Name=Go to StumbleUpon Profile Page
-Exec=kstumble link profile %u
+Exec=kstumble 4 link profile %u
 Icon=favorites
 
 [Desktop Action login]
 Name=Login to StumbleUpon
-Exec=kstumble login %u
+Exec=kstumble 4 login %u
 Icon=configure
